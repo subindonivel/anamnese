@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Anamnese VivaNext</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<style>
+body {
+    font-family: Arial;
+    background: #0a1f33;
+    color: white;
+    padding: 20px;
+}
+
+.container {
+    max-width: 700px;
+    margin: auto;
+    position: relative;
+}
+
+.logo {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 120px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    border: none;
+}
+
+button {
+    padding: 12px;
+    background: #00cfff;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.sugestoes button {
+    width: auto;
+    margin: 5px;
+    background: #444;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="formulario">
+
+<img src="logo.png" class="logo">
+
+<h2>Pré-Anamnese Viva Next</h2>
+
+<input id="nome" placeholder="Nome">
+<input id="idade" placeholder="Idade">
+<input id="peso" placeholder="Peso (kg)">
+<input id="altura" placeholder="Altura (cm)">
+<input id="telefone" placeholder="DDD+Número">
+
+<h4>Objetivo</h4>
+<div class="sugestoes">
+<button onclick="setVal('objetivo','Emagrecimento')">Emagrecimento</button>
+<button onclick="setVal('objetivo','Hipertrofia')">Hipertrofia</button>
+<button onclick="setVal('objetivo','Saúde')">Saúde</button>
+<button onclick="setVal('objetivo','Performance')">Performance</button>
+</div>
+<input id="objetivo">
+
+<h4>Refeições</h4>
+<div class="sugestoes">
+<button onclick="setVal('refeicoes','2-3')">2-3</button>
+<button onclick="setVal('refeicoes','4-5')">4-5</button>
+<button onclick="setVal('refeicoes','6+')">6+</button>
+</div>
+<input id="refeicoes">
+
+<h4>Biotipo</h4>
+<div class="sugestoes">
+<button onclick="setVal('biotipo','Ectomorfo')">Ectomorfo</button>
+<button onclick="setVal('biotipo','Mesomorfo')">Mesomorfo</button>
+<button onclick="setVal('biotipo','Endomorfo')">Endomorfo</button>
+</div>
+<input id="biotipo">
+
+<h4>Dificuldade</h4>
+<div class="sugestoes">
+<button onclick="setVal('dificuldade','Compulsão')">Compulsão</button>
+<button onclick="setVal('dificuldade','Disciplina')">Disciplina</button>
+<button onclick="setVal('dificuldade','Rotina')">Rotina</button>
+</div>
+<input id="dificuldade">
+
+<h4>Sono</h4>
+<div class="sugestoes">
+<button onclick="setVal('sono','Ruim')">Ruim</button>
+<button onclick="setVal('sono','Regular')">Regular</button>
+<button onclick="setVal('sono','Boa')">Boa</button>
+</div>
+<input id="sono">
+
+<h4>Esporte</h4>
+<div class="sugestoes">
+<button onclick="setVal('esporte','Musculação')">Musculação</button>
+<button onclick="setVal('esporte','Corrida')">Corrida</button>
+<button onclick="setVal('esporte','Vôlei')">Vôlei</button>
+<button onclick="setVal('esporte','Outro')">Outro</button>
+</div>
+<input id="esporte">
+
+<h4>Treino</h4>
+<div class="sugestoes">
+<button onclick="setVal('treino','Não treina')">Não</button>
+<button onclick="setVal('treino','3x semana')">3x</button>
+<button onclick="setVal('treino','5x+')">5x+</button>
+<button onclick="setVal('treino','Em casa')">Em casa</button>
+</div>
+<input id="treino">
+
+<h4>Condição Médica</h4>
+<div class="sugestoes">
+<button onclick="setVal('condicao','Sim')">Sim</button>
+<button onclick="setVal('condicao','Não')">Não</button>
+</div>
+<input id="condicao">
+
+<h4>Medicamento Contínuo</h4>
+<div class="sugestoes">
+<button onclick="setVal('medicamento','Sim')">Sim</button>
+<button onclick="setVal('medicamento','Não')">Não</button>
+</div>
+<input id="medicamento">
+
+<h4>Dores Frequentes</h4>
+<div class="sugestoes">
+<button onclick="setVal('dores','Sim')">Sim</button>
+<button onclick="setVal('dores','Não')">Não</button>
+</div>
+<input id="dores">
+
+<h4>Álcool</h4>
+<div class="sugestoes">
+<button onclick="setVal('alcool','Sim')">Sim</button>
+<button onclick="setVal('alcool','Não')">Não</button>
+<button onclick="setVal('alcool','Às vezes')">Às vezes</button>
+</div>
+<input id="alcool">
+
+<h4>Fuma?</h4>
+<div class="sugestoes">
+<button onclick="setVal('fuma','Sim')">Sim</button>
+<button onclick="setVal('fuma','Não')">Não</button>
+<button onclick="setVal('fuma','Às vezes')">Às vezes</button>
+</div>
+<input id="fuma">
+
+<button onclick="gerarPDF()">📄 Baixar em PDF</button>
+
+</div>
+
+<script>
+function setVal(id, val){
+    document.getElementById(id).value = val;
+}
+
+function gerarPDF(){
+    const element = document.getElementById("formulario");
+
+    const opt = {
+        margin: 0.5,
+        filename: 'anamnese.pdf',
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(element).save();
+}
+</script>
+
+</body>
+</html>
