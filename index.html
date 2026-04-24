@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <title>Anamnese VivaNext</title>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
 <style>
 body {
     font-family: Arial;
@@ -56,10 +54,8 @@ button {
 
 <img src="logo.png" class="logo">
 
-    
-    
 <div class="container" id="formulario">
-   
+
 <h2>Pré-Anamnese Viva Next</h2>
 
 <input id="nome" placeholder="Nome">
@@ -164,7 +160,7 @@ button {
 </div>
 <input id="fuma">
 
-<button onclick="gerarPDF()">📄 Baixar em PDF</button>
+<button onclick="enviarFormulario()">✅ Finalizar Anamnese</button>
 
 </div>
 
@@ -173,18 +169,21 @@ function setVal(id, val){
     document.getElementById(id).value = val;
 }
 
-function gerarPDF(){
-    const element = document.getElementById("formulario");
+function enviarFormulario(){
+    const nome = document.getElementById("nome").value;
+    const telefone = document.getElementById("telefone").value;
 
-    const opt = {
-        margin: 0.5,
-        filename: 'anamnese.pdf',
-        image: { type: 'jpeg', quality: 1 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-    };
+    if(nome === "" || telefone === ""){
+        alert("Por favor, preencha Nome e Telefone.");
+        return;
+    }
 
-    html2pdf().set(opt).from(element).save();
+    const confirmar = confirm("Confirma o envio da anamnese?");
+
+    if(confirmar){
+        alert("Anamnese enviada com sucesso!");
+        window.location.href = "https://painel.webdiet.com.br/questionarios/p.php?f=392020-113108";
+    }
 }
 </script>
 
